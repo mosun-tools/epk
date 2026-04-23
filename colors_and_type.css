@@ -1,0 +1,313 @@
+/* ============================================================
+   MOSUN Design System — Colors & Type
+   ============================================================
+   Palette is anchored on ink-black and warm cream, with a
+   saffron accent and supporting oxblood + forest secondaries.
+   Hex values sampled directly from the MOSUN COLOR THEME
+   reference sheet.
+   ============================================================ */
+
+/* ---------- Webfonts (brand files + supporting) ------------ */
+/* Brand faces delivered by MOSUN. Rosnoc is the wordmark face
+   itself AND the headline/title face. Prospec is the display
+   companion. Contourism is a decorative / drop-cap face. Futura
+   is the small-text / UI body face. Cormorant Garamond italic is
+   kept for pull-quotes.                                       */
+@font-face {
+  font-family: 'Rosnoc';
+  src: url('./fonts/Rosnoc.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Prospec';
+  src: url('./fonts/Prospec.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Contourism';
+  src: url('./fonts/Contourism.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Contourism Color';
+  src: url('./fonts/Contourism-Color.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* Futura is not free on Google Fonts. We use a Futura-family stack
+   with widely-available system fallbacks.                        */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* ---------- Core palette (raw) ---------- */
+  --mosun-ink:       #000000;  /* Absolute black — primary surface */
+  --mosun-cream:     #E8E6D9;  /* Warm cream — primary fg on ink */
+  --mosun-saffron:   #F6A25C;  /* Signature accent orange */
+  --mosun-oxblood:   #7E0101;  /* Deep red — supporting */
+  --mosun-forest:    #486348;  /* Muted green — supporting */
+
+  /* ---------- Extended neutrals (derived) ---------- */
+  --mosun-cream-95:  #DEDCD0;
+  --mosun-cream-80:  #B9B7AC;
+  --mosun-cream-60:  #8A8880;
+  --mosun-cream-40:  #5C5B55;
+  --mosun-cream-20:  #2E2D2B;
+  --mosun-ink-85:    #1A1A1A;
+  --mosun-ink-70:    #2D2D2D;
+
+  /* ---------- Saffron tints/shades ---------- */
+  --mosun-saffron-dark:   #D8823A;
+  --mosun-saffron-deep:   #B8661F;
+  --mosun-saffron-soft:   #FBC89A;
+  --mosun-saffron-wash:   #FDE7D2;
+
+  /* ---------- Semantic tokens (dark-mode default) ---------- */
+  --bg:           var(--mosun-ink);
+  --bg-elev:      var(--mosun-ink-85);
+  --bg-elev-2:    var(--mosun-ink-70);
+  --surface:      var(--mosun-ink-85);
+  --surface-alt:  var(--mosun-cream-20);
+
+  --fg:           var(--mosun-cream);
+  --fg-muted:     var(--mosun-cream-80);
+  --fg-subtle:    var(--mosun-cream-60);
+  --fg-faint:     var(--mosun-cream-40);
+  --fg-invert:    var(--mosun-ink);
+
+  --accent:           var(--mosun-saffron);
+  --accent-hover:     var(--mosun-saffron-dark);
+  --accent-press:     var(--mosun-saffron-deep);
+  --accent-soft:      var(--mosun-saffron-soft);
+  --accent-wash:      var(--mosun-saffron-wash);
+  --on-accent:        var(--mosun-ink);
+
+  --danger:       var(--mosun-oxblood);
+  --success:      var(--mosun-forest);
+
+  --border:         rgba(232, 230, 217, 0.14);
+  --border-strong:  rgba(232, 230, 217, 0.28);
+  --border-accent:  var(--mosun-saffron);
+
+  /* ---------- Spacing (Fibonacci) ---------- */
+  --sp-0:  0;
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  20px;
+  --sp-5:  32px;
+  --sp-6:  52px;
+  --sp-7:  84px;
+  --sp-8:  136px;
+  --sp-9:  220px;
+
+  /* ---------- Radii ---------- */
+  --radius-0:    0;
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   14px;
+  --radius-xl:   22px;
+  --radius-pill: 999px;
+
+  /* ---------- Shadows (warm, low, restrained) ---------- */
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.40);
+  --shadow-3: 0 14px 40px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.35);
+  --shadow-glow: 0 0 0 1px rgba(246,162,92,0.35), 0 8px 30px rgba(246,162,92,0.18);
+
+  /* ---------- Type families ---------- */
+  /* Prospec is the primary face — used for the MOSUN wordmark AND
+     all editorial titles. Prospec is ALWAYS set in ALL CAPS.
+     Rosnoc is the decorative face — ALWAYS set in all LOWERCASE —
+     reserved for drop caps, single letters, roman numerals (lowercase: i, ii, iii),
+     poster markers and ornamental moments.
+     Futura handles small text & UI body (system Futura w/ fallback).
+     Cormorant Garamond italic is used only for pull-quotes. */
+  --font-wordmark: 'Prospec', 'Rosnoc', Georgia, serif;
+  --font-display:  'Prospec', 'Rosnoc', Georgia, serif;
+  --font-editorial:'Prospec', 'Rosnoc', Georgia, serif;
+  --font-decor:    'Rosnoc', 'Prospec', Georgia, serif;
+  --font-decor-color: 'Contourism Color', 'Rosnoc', Georgia, serif;
+  --font-serif:    'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans:     'Futura', 'Futura PT', 'Futura Std', 'Trebuchet MS', 'Century Gothic', Avenir, 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:     ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---------- Type scale ---------- */
+  --fs-hero:    96px;
+  --fs-display: 72px;
+  --fs-h1:      56px;
+  --fs-h2:      40px;
+  --fs-h3:      28px;
+  --fs-h4:      20px;
+  --fs-body-lg: 18px;
+  --fs-body:    16px;
+  --fs-body-sm: 14px;
+  --fs-caption: 12px;
+  --fs-micro:   11px;
+
+  /* ---------- Line heights ---------- */
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.45;
+  --lh-relaxed: 1.65;
+
+  /* ---------- Letter spacing ---------- */
+  --tr-wordmark:  0.32em;   /* MOSUN-style wide tracking */
+  --tr-loose:     0.12em;
+  --tr-wide:      0.06em;
+  --tr-normal:    0;
+  --tr-tight:     -0.015em;
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0.0, 0.2, 1);
+  --ease-emph:     cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-xs:   120ms;
+  --dur-sm:   200ms;
+  --dur-md:   320ms;
+  --dur-lg:   520ms;
+}
+
+/* ============================================================
+   Semantic element defaults
+   ============================================================ */
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Wordmark / brand lockup — set in Rosnoc, the official face */
+.wordmark,
+.mosun-wordmark {
+  font-family: var(--font-wordmark);
+  font-weight: 400;
+  letter-spacing: var(--tr-wordmark);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.decor     { font-family: var(--font-decor); }
+.decor-col { font-family: var(--font-decor-color); }
+
+/* Display headings — Prospec, editorial & airy */
+.h-hero {
+  font-family: var(--font-display);
+  font-size: var(--fs-hero);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  font-weight: 400;
+}
+.h-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  font-weight: 400;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-tight);
+  font-weight: 400;
+  margin: 0;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-tight);
+  font-weight: 400;
+  margin: 0;
+}
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-normal);
+  font-weight: 500;
+  margin: 0;
+}
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h4);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--tr-normal);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Body */
+p, .body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  font-weight: 400;
+  margin: 0;
+}
+.body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-relaxed); }
+.body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-normal); }
+
+/* Eyebrow / meta — uppercase, tracked */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: var(--tr-loose);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  color: var(--fg-muted);
+  line-height: var(--lh-normal);
+}
+
+.serif-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+code, .code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* Links default */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-sm) var(--ease-standard),
+              color var(--dur-sm) var(--ease-standard);
+}
+a:hover { border-bottom-color: var(--accent); }
+a:active { color: var(--accent-press); }
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}

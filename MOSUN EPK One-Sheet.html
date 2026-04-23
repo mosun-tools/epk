@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>MOSUN — EPK 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="colors_and_type.css"/>
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    background: #000;
+    overflow: hidden;
+    height: 100%;
+    color: #E8E6D9;
+  }
+  /* Global hover glow — any interactive element picks up saffron glow */
+  [style*="Prospec"] { text-transform: uppercase !important; }
+
+  /* Hover glow intentionally disabled for text — sand is the only ambient motion */
+  body img:hover, body svg:hover {
+    filter: drop-shadow(0 0 18px rgba(246,162,92,0.6));
+    transition: filter 200ms ease;
+  }
+
+  /* Sand layer — drifting horizontally across the whole screen */
+  .sand-layer {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    overflow: hidden;
+  }
+  .sand-grain {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: #E8C38A;
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(0.4px) drop-shadow(0 0 3px rgba(232,195,138,0.7));
+    animation: sand-drift linear infinite;
+  }
+  @keyframes sand-drift {
+    0%   { transform: translate3d(-6vw, 0, 0); opacity: 0; }
+    8%   { opacity: var(--sand-opa, 0.7); }
+    92%  { opacity: var(--sand-opa, 0.7); }
+    100% { transform: translate3d(108vw, var(--sand-dy, -20px), 0); opacity: 0; }
+  }
+
+  a, button, [data-hover] {
+    transition: color 220ms ease, background 220ms ease,
+                border-color 220ms ease, box-shadow 220ms ease,
+                text-shadow 220ms ease, transform 220ms ease, filter 220ms ease;
+  }
+  a:hover, [data-hover]:hover {
+    color: #F6A25C !important;
+    text-shadow: 0 0 18px rgba(246,162,92,0.55);
+    filter: drop-shadow(0 0 12px rgba(246,162,92,0.35));
+  }
+  button:hover:not(.nav-btn) {
+    color: #F6A25C !important;
+    box-shadow: 0 0 0 1px rgba(246,162,92,0.45), 0 0 28px rgba(246,162,92,0.45);
+  }
+  #root { position: fixed; inset: 0; }
+  button { font: inherit; }
+
+  /* Slick nav-edge buttons: sit on invisible side strips so they
+     only respond where they are, never blocking center content. */
+  .nav-edge {
+    position: absolute; top: 0; bottom: 0;
+    width: 140px; z-index: 30;
+    display: flex; align-items: center;
+    pointer-events: none;
+  }
+  .nav-edge.left  { left: 0;  justify-content: flex-start; padding-left: 28px; }
+  .nav-edge.right { right: 0; justify-content: flex-end;   padding-right: 28px; }
+  .nav-btn {
+    pointer-events: auto;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(14,14,14,0.55);
+    border: 1px solid rgba(232,230,217,0.28);
+    color: #E8E6D9;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0.55;
+    transition: opacity 220ms ease, background 220ms ease,
+                border-color 220ms ease, transform 220ms ease, color 220ms ease,
+                box-shadow 220ms ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 0 rgba(246,162,92,0);
+  }
+  .nav-edge:hover .nav-btn { opacity: 1; }
+  .nav-btn:hover {
+    background: rgba(246,162,92,0.18);
+    border-color: #F6A25C;
+    color: #F6A25C;
+    transform: scale(1.08);
+    opacity: 1;
+    box-shadow: 0 0 0 1px rgba(246,162,92,0.45), 0 0 32px rgba(246,162,92,0.55);
+  }
+  .nav-btn[disabled] { opacity: 0 !important; cursor: default; pointer-events: none; }
+  .nav-btn svg { width: 18px; height: 18px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="scenes/common.jsx"></script>
+<script type="text/babel" src="scenes/scene_1_3.jsx"></script>
+<script type="text/babel" src="scenes/scene_4_5.jsx"></script>
+<script type="text/babel" src="scenes/scene_6_8.jsx"></script>
+
+<script type="text/babel">
+// Slideshow — each slide is a self-contained scene with its own
+// local timeline starting at 0. Animations play on entry and then
+// hold; no auto-advance. Prev/Next (or ←/→) switches slides.
+// Space or "R" replays the current slide's animation.
+
+const SLIDES = [
+  { Comp: SceneOpen,            label: 'Open',         dur: 5  },
+  { Comp: SceneBio,             label: 'Bio',          dur: 8  },
+  { Comp: SceneSound,           label: 'Sound',        dur: 6  },
+  { Comp: SceneDiscography,     label: 'Discography',  dur: 9  },
+  { Comp: SceneOnStage,         label: 'On Stage',     dur: 9  },
+  { Comp: SceneProduction,      label: 'Production',   dur: 8  },
+  { Comp: SceneBrands,          label: 'Partners',     dur: 6  },
+  { Comp: SceneDifferentiation, label: 'Why MOSUN',    dur: 10 },
+  { Comp: SceneVision,          label: 'Vision',       dur: 10 },
+];
+
+// A per-slide local clock that ticks from 0 upward. Freezes when
+// `maxTime` is reached so exit animations never fire.
+// The scenes were written against `<Sprite start end>` against a
+// global timeline; here we feed that context with local time,
+// and each slide's scene is rendered with start=0 end=BIG so its
+// Sprite wrapper is always "visible" and localTime==time.
+function SlideClock({ slideKey, maxTime, children }) {
+  const [time, setTime] = React.useState(0);
+  const rafRef = React.useRef(null);
+  const lastTsRef = React.useRef(null);
+  const startedAt = React.useRef(slideKey);
+
+  // Reset on slide change
+  React.useEffect(() => {
+    setTime(0);
+    lastTsRef.current = null;
+    startedAt.current = slideKey;
+  }, [slideKey]);
+
+  React.useEffect(() => {
+    const step = (ts) => {
+      if (lastTsRef.current == null) lastTsRef.current = ts;
+      const dt = (ts - lastTsRef.current) / 1000;
+      lastTsRef.current = ts;
+      setTime(t => Math.min(maxTime, t + dt));
+      rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastTsRef.current = null;
+    };
+  }, [slideKey, maxTime]);
+
+  const ctxValue = React.useMemo(
+    () => ({ time, duration: maxTime, playing: time < maxTime, setTime, setPlaying: () => {} }),
+    [time, maxTime]
+  );
+
+  return (
+    <TimelineContext.Provider value={ctxValue}>
+      {children}
+    </TimelineContext.Provider>
+  );
+}
+
+function Slide({ slideKey, Comp, holdTime }) {
+  // Freeze time slightly before the scene's own exit-fade threshold so
+  // scenes never cross into their "exit" frames. We render the scene
+  // with start=0 end=huge so the Sprite wrapper inside always renders
+  // and its localTime equals the slide clock.
+  return (
+    <SlideClock slideKey={slideKey} maxTime={holdTime}>
+      <Comp start={0} end={1e6}/>
+    </SlideClock>
+  );
+}
+
+// Viewport-scaling stage. No playback bar. Fills the screen, preserves
+// the 1920×1080 canvas aspect, crossfades between slides.
+function SlideStage({ width = 1920, height = 1080, children }) {
+  const ref = React.useRef(null);
+  const [scale, setScale] = React.useState(1);
+  React.useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const m = () => setScale(Math.max(0.05, Math.min(el.clientWidth / width, el.clientHeight / height)));
+    m();
+    const ro = new ResizeObserver(m);
+    ro.observe(el);
+    window.addEventListener('resize', m);
+    return () => { ro.disconnect(); window.removeEventListener('resize', m); };
+  }, [width, height]);
+
+  return (
+    <div ref={ref} style={{
+      position: 'absolute', inset: 0,
+      background: '#000',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        width, height,
+        background: '#000',
+        position: 'relative',
+        transform: `scale(${scale})`,
+        transformOrigin: 'center',
+        flexShrink: 0,
+        overflow: 'hidden',
+      }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function SceneNav({ idx, total, label, onPrev, onNext, onReplay }) {
+  return (
+    <>
+      <div className="nav-edge left">
+        <button className="nav-btn" onClick={onPrev} disabled={idx === 0} title="Previous (←)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+      </div>
+      <div className="nav-edge right">
+        <button className="nav-btn" onClick={onNext} disabled={idx === total - 1} title="Next (→)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* Bottom-center slim pager + dots */}
+      <div style={{
+        position: 'absolute', left: '50%', bottom: 28,
+        transform: 'translateX(-50%)',
+        zIndex: 30,
+        display: 'flex', alignItems: 'center', gap: 18,
+        padding: '10px 18px',
+        background: 'rgba(10,10,10,0.55)',
+        border: '1px solid rgba(232,230,217,0.14)',
+        borderRadius: 999,
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        fontFamily: "'Futura','Futura PT','Trebuchet MS','Century Gothic',Avenir,sans-serif",
+        fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase',
+        color: '#E8E6D9',
+      }}>
+        <span style={{ color: '#F6A25C' }}>{String(idx + 1).padStart(2, '0')}</span>
+        <span style={{ color: 'rgba(232,230,217,0.45)' }}>— {label}</span>
+        {/* Dots */}
+        <span style={{ display: 'flex', gap: 6, marginLeft: 4 }}>
+          {Array.from({ length: total }).map((_, i) => (
+            <span key={i} style={{
+              width: i === idx ? 14 : 4, height: 4, borderRadius: 2,
+              background: i === idx ? '#F6A25C' : 'rgba(232,230,217,0.25)',
+              transition: 'width 220ms ease, background 220ms ease',
+            }}/>
+          ))}
+        </span>
+        <button onClick={onReplay} title="Replay (R)" style={{
+          marginLeft: 6,
+          background: 'transparent',
+          border: 'none', color: 'rgba(232,230,217,0.65)',
+          cursor: 'pointer', padding: 0,
+          display: 'inline-flex', alignItems: 'center',
+        }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>
+          </svg>
+        </button>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  const [idx, setIdx] = React.useState(() => {
+    const v = parseInt(localStorage.getItem('mosun-slide') || '0', 10);
+    return isNaN(v) ? 0 : Math.max(0, Math.min(SLIDES.length - 1, v));
+  });
+  // Bump this key to force SlideClock to reset & replay the same slide.
+  const [nonce, setNonce] = React.useState(0);
+
+  React.useEffect(() => {
+    try { localStorage.setItem('mosun-slide', String(idx)); } catch {}
+    document.body.setAttribute('data-screen-label',
+      String(idx + 1).padStart(2, '0') + ' ' + SLIDES[idx].label);
+  }, [idx]);
+
+  const go = (delta) => setIdx(i => Math.max(0, Math.min(SLIDES.length - 1, i + delta)));
+  const replay = () => setNonce(n => n + 1);
+
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      if (e.code === 'ArrowLeft'  || e.code === 'PageUp')   { e.preventDefault(); go(-1); }
+      else if (e.code === 'ArrowRight' || e.code === 'PageDown' || e.code === 'Space') {
+        e.preventDefault();
+        if (e.code === 'Space') replay();
+        else go(+1);
+      }
+      else if (e.key && e.key.toLowerCase() === 'r') { replay(); }
+      else if (e.code === 'Home') { setIdx(0); }
+      else if (e.code === 'End')  { setIdx(SLIDES.length - 1); }
+      else if (/^[1-9]$/.test(e.key)) {
+        const n = parseInt(e.key, 10) - 1;
+        if (n < SLIDES.length) setIdx(n);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const S = SLIDES[idx];
+  const slideKey = idx + ':' + nonce;
+
+  return (
+    <div data-screen-label={String(idx + 1).padStart(2, '0') + ' ' + SLIDES[idx].label}
+         style={{ position: 'fixed', inset: 0 }}>
+      <SlideStage>
+        <Slide slideKey={slideKey} Comp={S.Comp} holdTime={S.dur}/>
+      </SlideStage>
+      <SceneNav
+        idx={idx}
+        total={SLIDES.length}
+        label={S.label}
+        onPrev={() => go(-1)}
+        onNext={() => go(+1)}
+        onReplay={replay}
+      />
+      <SandLayer/>
+    </div>
+  );
+}
+
+function SandLayer() {
+  // 60 grains, each with randomized timing, vertical position, size, opacity.
+  const grains = React.useMemo(() => {
+    const arr = [];
+    for (let i = 0; i < 22; i++) {
+      const top = Math.random() * 100;
+      const dur = 7 + Math.random() * 12;
+      const delay = -Math.random() * dur;
+      // Much wider size variance: dust grains to chunky motes
+      const size = 1 + Math.pow(Math.random(), 2) * 6;
+      const opa = 0.35 + Math.random() * 0.5;
+      const dy = (Math.random() * 80 - 40) + 'px';
+      arr.push({ top, dur, delay, size, opa, dy, i });
+    }
+    return arr;
+  }, []);
+  return (
+    <div className="sand-layer" aria-hidden="true">
+      {grains.map(g => (
+        <span key={g.i} className="sand-grain" style={{
+          top: g.top + '%',
+          left: 0,
+          width: g.size + 'px',
+          height: g.size + 'px',
+          animationDuration: g.dur + 's',
+          animationDelay: g.delay + 's',
+          '--sand-opa': g.opa,
+          '--sand-dy': g.dy,
+        }}/>
+      ))}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
