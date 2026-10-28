@@ -109,8 +109,10 @@ main, .top, .hud, .dock, .foot { position: relative; z-index: 2; }
 .dawn .when, .dawn .stamp b, .dawn .kicker { color: var(--white); }
 .dawn .kicker::before { background: var(--white); }
 .dawn .foot__contact { color: var(--white); border-color: var(--white-62); }
-.dawn .when, .dawn .stamp, .dawn .kicker, .dawn .small { text-shadow: 0 0 13px rgb(0 0 0 / .62), 0 0 34px rgb(0 0 0 / .62); }
-.dawn .foot__mail .addr { text-shadow: 0 0 8px rgb(0 0 0 / .62), 0 0 21px rgb(0 0 0 / .62), 0 0 34px rgb(0 0 0 / .55); }   /* the booking email sits on the bright cloud band on phones */
+/* over the sunrise photo every reading line gets a close dark halo: the sun-and-cloud band is bright enough to wash out
+   credits, partner names and labels as they scroll through it */
+.dawn .when, .dawn .stamp, .dawn .kicker, .dawn .small, .dawn .lead, .dawn .body, .dawn .names, .dawn .plist, .dawn .foot__mail .addr {
+  text-shadow: 0 0 8px rgb(0 0 0 / .62), 0 0 21px rgb(0 0 0 / .62), 0 0 34px rgb(0 0 0 / .55); }
 .quote { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--amber); font-size: 34px; line-height: 34px; text-wrap: balance; }
 @media (min-width: 768px) { .quote { font-size: 55px; line-height: 55px; } }
 .kicker { display: inline-flex; align-items: center; gap: 13px; font: 500 13px/21px var(--body); letter-spacing: .3em; text-transform: uppercase; color: var(--amber); }
@@ -151,7 +153,9 @@ main, .top, .hud, .dock, .foot { position: relative; z-index: 2; }
 .top__nav a { flex: none; display: flex; align-items: center; height: 100%; box-shadow: inset 0 -2px 0 transparent; color: var(--white-80);
   font: 500 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; transition: color 233ms, box-shadow 233ms; }
 .top__nav a:last-child { margin-right: 34px; }
-.top__nav a:hover, .top__nav a[aria-current="true"] { color: var(--white); box-shadow: inset 0 -2px 0 var(--amber); }
+.top__nav a[aria-current="true"] { color: var(--white); box-shadow: inset 0 -2px 0 var(--amber); }
+@media (hover: hover) { .top__nav a:hover { color: var(--white); box-shadow: inset 0 -2px 0 var(--amber); } }
+.top__nav a:focus-visible { outline-offset: -3px; }   /* the nav scrolls sideways, which clips a ring drawn outside the link */
 .switch { flex: none; display: inline-flex; align-items: center; gap: 8px; font: 500 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--white-62); }
 .switch i { position: relative; width: 34px; height: 21px; border-radius: 13px; border: 1px solid var(--white-62); transition: border-color 233ms; }
 .switch i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 13px; height: 13px; border-radius: 50%; background: var(--white-62); transition: transform 233ms, background-color 233ms; }
@@ -245,9 +249,9 @@ main { container-type: inline-size; }
 .track__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 21px; }
 .track__play { display: inline-flex; align-items: center; gap: 8px; color: var(--amber); font: 600 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; }
 .track__play::before { content: ""; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--amber); }
-.track__play:hover { color: var(--white); }
+@media (hover: hover) { .track__play:hover { color: var(--white); } }
 .track__more a { color: var(--white-62); border-bottom: 1px solid var(--white-14); }
-.track__more a:hover { color: var(--amber); border-bottom-color: var(--amber); }
+@media (hover: hover) { .track__more a:hover { color: var(--amber); border-bottom-color: var(--amber); } }
 
 /* 03:00 */
 .three { padding-block: var(--pad); min-height: calc(100svh - var(--head)); align-content: center; }
@@ -327,7 +331,7 @@ main { container-type: inline-size; }
 .morning { padding-block: var(--pad) 89px; }
 .linkgrid { display: grid; gap: 13px; }
 .lcard { display: flex; align-items: center; justify-content: space-between; gap: 21px; min-height: 89px; padding: 13px 21px; transition: border-color 233ms; }
-.lcard:hover { border-color: var(--amber); }
+@media (hover: hover) { .lcard:hover { border-color: var(--amber); } }
 .lcard .pl { display: block; font-weight: 500; }
 .lcard .hd { display: block; color: var(--white-80); }
 .lcard .go { color: var(--amber); font: 600 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; flex: none; }
@@ -345,12 +349,12 @@ main { container-type: inline-size; }
   color: var(--amber); background: rgb(0 0 0 / .34); transition: background-color 233ms, color 233ms; }
 .dl .lbl { font: 600 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; }
 .dl .meta { font-size: 13px; line-height: 21px; letter-spacing: .08em; color: var(--white-62); }
-.dl:hover { background: var(--amber); color: var(--black); }
+@media (hover: hover) { .dl:hover { background: var(--amber); color: var(--black); } }
 .dl.busy, .btn.busy { opacity: .55; pointer-events: none; cursor: progress; }   /* while a ZIP is being packed */
-.dl:hover .meta { color: var(--black); }
+@media (hover: hover) { .dl:hover .meta { color: var(--black); } }
 .dl--solid { background: var(--amber); color: var(--black); }
 .dl--solid .meta { color: rgb(0 0 0 / .62); }
-.dl--solid:hover { background: var(--white); border-color: var(--white); }
+@media (hover: hover) { .dl--solid:hover { background: var(--white); border-color: var(--white); } }
 @media (min-width: 1024px) { .dl { flex: var(--w) 1 0; margin-bottom: 21px; } }   /* 13 | 8, then 8 | 5 | 8 */
 
 /* footer */
@@ -364,7 +368,8 @@ main { container-type: inline-size; }
 /* booking & press: label over the address, like the press kit footer */
 .foot__mail { display: grid; gap: 8px; justify-items: start; }
 .foot__mail .addr { font-size: 21px; line-height: 34px; color: var(--white); border-bottom: 1px solid rgb(246 162 92 / .55); text-shadow: 0 0 21px rgb(0 0 0 / .55); }
-.foot__mail:hover .addr, .foot__mail:focus-visible .addr { border-bottom-color: var(--amber); }
+.foot__mail:focus-visible .addr { border-bottom-color: var(--amber); }
+@media (hover: hover) { .foot__mail:hover .addr { border-bottom-color: var(--amber); } }
 @media (min-width: 1024px) {   /* mark 8u | contact 5u | label 8u */
   .foot__row { display: grid; grid-template-columns: calc(var(--u) * 8) calc(var(--u) * 5) calc(var(--u) * 8); gap: 0; }
   .foot__row > :last-child { grid-column: 3; justify-self: end; }
@@ -372,8 +377,18 @@ main { container-type: inline-size; }
 }
 
 /* ---------- the dock: one player that stays while you walk through the night ---------- */
-.dock { transition: transform 610ms cubic-bezier(.2, .8, .2, 1), opacity 610ms; }
-.dock.away { transform: translateY(calc(100% + 34px)); opacity: 0; pointer-events: none; }
+.dock { transition: transform 610ms cubic-bezier(.2, .8, .2, 1), opacity 610ms, visibility 0s; }
+.dock.away { transform: translateY(calc(100% + 34px)); opacity: 0; pointer-events: none; visibility: hidden;   /* hidden = out of the tab order too */
+  transition: transform 610ms cubic-bezier(.2, .8, .2, 1), opacity 610ms, visibility 0s 610ms; }
+.dock.glass { background: rgb(14 27 51 / .82); }   /* firmer than the header glass: the bar floats over bright photos */
+.dock__bar:focus-visible, .dock__panel:focus-visible { outline-offset: -3px; }   /* .dock clips anything outside its edge */
+/* behind the open player the page dims and blurs, so no page line reads as if it ran into the track name */
+.dock-scrim { position: fixed; inset: 0; z-index: 54; background: rgb(0 0 0 / .45); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden; transition: opacity 377ms, visibility 0s 377ms; }
+.dock-open .dock-scrim { opacity: 1; visibility: visible; transition: opacity 377ms; }
+/* where the blur isn't drawn, the dim alone has to keep page lines from reading next to the player */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .dock-scrim { background: rgb(0 0 0 / .89); } }
+@media (prefers-reduced-transparency: reduce) { .dock-scrim { background: rgb(0 0 0 / .89); } }
 .dock { position: fixed; z-index: 55; right: max(21px, env(safe-area-inset-right, 0px)); bottom: calc(21px + env(safe-area-inset-bottom, 0px)); width: min(377px, calc(100% - 42px)); overflow: hidden; }
 .dock__bar { display: flex; align-items: center; gap: 13px; width: 100%; min-height: 55px; padding: 0 21px; text-align: left; }
 .dock__bar .pl { width: 21px; height: 21px; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--amber); }
@@ -388,13 +403,13 @@ main { container-type: inline-size; }
 .dock__panel { padding: 0 13px 13px; }
 .dock__panel[hidden] { display: none; }
 .dock__panel iframe { display: block; width: 100%; height: 152px; border: 0; border-radius: 13px; color-scheme: normal; }
-@media (max-width: 767px) { .dock__panel iframe { height: 80px; } }   /* Spotify's compact player: the open panel covers less of a phone */
+@media (max-width: 767px), (max-height: 500px) { .dock__panel iframe { height: 80px; } }   /* Spotify's compact player on phones and short landscape screens */
 .dock__tracks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
 .dock__tracks button { padding: 0 13px; min-height: 34px; border: 1px solid var(--white-14); border-radius: 21px; font: 500 13px/21px var(--body); letter-spacing: .08em; color: var(--white-80); }
 .dock__tracks button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
 @media (max-width: 767px) { .foot { padding-bottom: 377px; } }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv, .rv.pre { opacity: 1 !important; transform: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv, .rv.pre { opacity: 1 !important; transform: none !important; transition: none !important; } .dock, .dock.away, .dock-scrim, .dock-open .dock-scrim { transition: none; } }
 
 /* ---------- moving pictures: muted loops that play only while on screen ---------- */
 .vid { position: relative; overflow: hidden; border-radius: 13px; background: var(--navy) 50% 50% / cover no-repeat; aspect-ratio: 13 / 8; min-width: 0; }   /* the still (inline background-image) shows while a clip loads its first frame */
@@ -680,13 +695,13 @@ main { container-type: inline-size; }
     <div class="panel glass">
       <div>
         <p class="kicker">Arranger / producer credits</p>
-        <p class="names" style="margin-top: 21px"><span class="nb">BLACKPINK (Coachella)</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Jolin Tsai</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Shi Shi <span class="zh" lang="zh-Hant">(孫盛希)</span></span></p>
-        <p class="names" style="margin-top: 21px"><span class="nb">J.Sheon</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Steve Aoki</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Pei-Yu Hung <span class="zh" lang="zh-Hant">(洪佩瑜)</span></span></p>
+        <p class="names" style="margin-top: 21px"><span class="nb">BLACKPINK (Coachella)</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Jolin Tsai</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Shi Shi <span class="zh" lang="zh-Hant">(孫盛希)</span></span></p>
+        <p class="names" style="margin-top: 21px"><span class="nb">J.Sheon</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Steve Aoki</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Pei-Yu Hung <span class="zh" lang="zh-Hant">(洪佩瑜)</span></span></p>
         <p class="names" style="margin-top: 21px"><span class="role">Songwriter</span> <span class="nb">Chenle (NCT DREAM)</span></p>
       </div>
       <div class="tight">
         <p class="kicker">Shows &amp; stages</p>
-        <p class="names" style="margin-top: 21px"><span class="nb">Billboard China</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Spaceport Festival</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Ultra Taiwan</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Golden Melody Awards</span></p>
+        <p class="names" style="margin-top: 21px"><span class="nb">Billboard China</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Spaceport Festival</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Ultra Taiwan</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Golden Melody Awards</span></p>
       </div>
       <div>
         <p class="kicker">Recognition</p>
@@ -877,7 +892,7 @@ main { container-type: inline-size; }
   </div>
   <div class="partners rv">
     <p class="kicker">Brand partners</p>
-    <p class="plist" style="margin-top: 21px"><span class="nb">Acne Studios</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Devialet</span><span class="sep" aria-hidden="true">·</span> <span class="nb">COACH</span><span class="sep" aria-hidden="true">·</span> <span class="nb">L’Oréal</span><span class="sep" aria-hidden="true">·</span> <span class="nb">JUSTINXX × NIKE</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Playtronica</span><span class="sep" aria-hidden="true">·</span> <span class="nb">Isart.Gallery</span></p>
+    <p class="plist" style="margin-top: 21px"><span class="nb">Acne Studios</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Devialet</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">COACH</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">L’Oréal</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">JUSTINXX × NIKE</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Playtronica</span><span class="sep" aria-hidden="true">·</span><span class="sr">,</span> <span class="nb">Isart.Gallery</span></p>
   </div>
 </section>
 
@@ -1135,41 +1150,49 @@ void main(){
   if (dock && EMBEDS) {
     const bar = document.getElementById("dock-bar"), panel = document.getElementById("dock-panel"), frame = panel.querySelector(".dock__frame");
     const pick = [...panel.querySelectorAll("[data-spotify]")];
-    let current = pick[0] && pick[0].dataset.spotify, openY = 0, quiet = 0;
+    let current = pick[0] && pick[0].dataset.spotify, openY = 0;
     /* the bar always reads Listen · MOSUN. A track name there would float under the "nominee" lines as you
        scroll, and "Now playing" can't be promised: the embed doesn't tell the page when it plays */
     const load = (id) => {
-      current = id;
       const b = pick.find((p) => p.dataset.spotify === id);
       pick.forEach((p) => p.setAttribute("aria-pressed", String(p === b)));
-      const f = document.createElement("iframe");
-      f.src = `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`;
-      f.title = `Spotify player: ${b ? b.dataset.title : ""}`;
-      f.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
-      frame.replaceChildren(f);
+      if (id !== current || !frame.firstChild) {   // the same track again keeps its player (and whatever is playing)
+        const f = document.createElement("iframe");
+        f.src = `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`;
+        f.title = `Spotify player: ${b ? b.dataset.title : ""}`;
+        f.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+        frame.replaceChildren(f);
+      }
+      current = id;
       dock.classList.add("on");
       dock.classList.remove("away");
     };
-    const open = (yes) => {
-      panel.hidden = !yes; bar.setAttribute("aria-expanded", String(yes));
-      if (yes) { openY = scrollY; if (!frame.firstChild) load(current); }
+    /* while the panel is open the page behind it is dimmed and blurred: the Spotify card names the track, and no
+       page line (a "nominee" line above all) may read as if it ran into it. A tap outside, Escape or scrolling on
+       folds it back; the music keeps playing */
+    const scrim = document.createElement("div");
+    scrim.className = "dock-scrim";
+    dock.before(scrim);
+    /* focus goes to the panel itself, not into Spotify's frame: from there Escape still reaches the page, and the
+       next Tab lands on Spotify's controls */
+    panel.tabIndex = -1;
+    const open = (yes, focusIn) => {
+      panel.hidden = !yes; bar.setAttribute("aria-expanded", String(yes)); root.classList.toggle("dock-open", yes);
+      if (yes) { openY = scrollY; if (!frame.firstChild) load(current); if (focusIn) panel.focus({ preventScroll: true }); }
+      else if (panel.contains(document.activeElement)) bar.focus({ preventScroll: true });
     };
-    bar.addEventListener("click", () => open(panel.hidden));
+    bar.addEventListener("click", () => open(panel.hidden, true));
+    scrim.addEventListener("click", () => open(false));
+    addEventListener("keydown", (ev) => { if (ev.key === "Escape" && !panel.hidden) { open(false); bar.focus({ preventScroll: true }); } });
     pick.forEach((p) => p.addEventListener("click", () => load(p.dataset.spotify)));
-    /* where the open player will sit once it has slid in (its transform is still moving) */
-    const dockTop = () => innerHeight - parseFloat(getComputedStyle(dock).bottom) - dock.offsetHeight;
-    /* a page button opens the player; if the panel would cover that button's row (phones), the page moves up to keep it clear */
-    document.querySelectorAll("[data-play]").forEach((a) => a.addEventListener("click", (ev) => {
-      ev.preventDefault(); load(a.dataset.play); open(true);
-      const over = (a.closest(".actions") || a).getBoundingClientRect().bottom - dockTop() + 13;
-      if (over > 0) { quiet = performance.now() + 987; scrollBy({ top: over, behavior: reduced ? "auto" : "smooth" }); }
-    }));
-    /* the open panel folds back into the bar once you scroll on; the music keeps playing */
-    addEventListener("scroll", () => {
-      if (panel.hidden) return;
-      if (performance.now() < quiet) { openY = scrollY; return; }
-      if (Math.abs(scrollY - openY) > 89) open(false);
-    }, { passive: true });
+    /* page buttons that start a track act as buttons (their href stays as the no-script route), and focus moves
+       to the player so the keyboard reaches Spotify's controls next */
+    document.querySelectorAll("[data-play]").forEach((a) => {
+      a.setAttribute("role", "button");
+      a.addEventListener("keydown", (ev) => { if (ev.key === " ") { ev.preventDefault(); a.click(); } });
+      a.addEventListener("click", (ev) => { ev.preventDefault(); load(a.dataset.play); open(true, true); });
+    });
+    addEventListener("scroll", () => { if (!panel.hidden && Math.abs(scrollY - openY) > 89) open(false); }, { passive: true });
     const clip = document.querySelector(".clip[data-embed]");
     if (clip && clip.dataset.embed) clip.addEventListener("click", (ev) => {
       ev.preventDefault();
@@ -1219,6 +1242,8 @@ void main(){
     vids.forEach((v) => { near.observe(v); seen.observe(v); });
   }
   vids.forEach((v) => v.addEventListener("click", () => { wake(v); if (v.paused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause(); }));
+  /* the tile's still covers the wait for a first frame; once a clip plays it goes, so no rim of it shows past dark frames */
+  vids.forEach((v) => v.addEventListener("playing", () => { v.parentElement.style.backgroundImage = "none"; }, { once: true }));
   if (calmBtn) calmBtn.addEventListener("click", () => { if (calm) vids.forEach((v) => v.pause()); });
 
   /* ------------------------------------------------------------------ downloads: plain links on a normal host; inside the preview
