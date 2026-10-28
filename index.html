@@ -34,8 +34,8 @@
 @font-face { font-family: "Noto Sans TC"; font-weight: 500; font-display: swap; src: url("assets/fonts/NotoSansTC-500.woff2") format("woff2"); unicode-range: U+2E80-9FFF, U+F900-FAFF, U+FF00-FFEF; }
 @font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("assets/fonts/CormorantGaramond-Italic-400.woff2") format("woff2"); }
 /* MOSUN — online EPK v2, "A walk through the longest night".
-   One night in Taipei, 00:00 to sunrise. A WebGL sky behind the page moves through the Brandbook v3.1 acts
-   (p.8: Act I The Night → The Transition → Act II The Sunrise) as you scroll; each chapter is a time.
+   One night in Taipei, 00:00 to sunrise. A WebGL sky behind the page moves from night through the transition
+   to sunrise as you scroll; each chapter is a time.
    Same Fibonacci system as v1 (p.10): sizes, lines, gaps and margins 1 2 3 5 8 13 21 34 55 89 144 233 377 610,
    composition on the 21u x 13u golden rectangle (lines c5 / c8 / c13). */
 :root {
@@ -91,7 +91,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .gl-on #sky { opacity: 1; }
 .no-gl #sky { display: none; }
 main, .top, .hud, .dock, .foot { position: relative; z-index: 2; }
-/* sunrise: Taipei as the sun touches the horizon, graded cyberpunk in the Brand Book's transition colours (a real photo, build/dawn_web.py), fades in over the drawn night as the walk reaches dawn; set by the script */
+/* sunrise: Taipei as the sun touches the horizon, graded cyberpunk in the indigo / purple / magenta / amber transition colours (a real photo, build/dawn_web.py), fades in over the drawn night as the walk reaches dawn; set by the script */
 .dawn-sky { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0; }
 .dawn-sky img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38.2%; }   /* the sun stays in view on phones; the horizon stays on the screen's upper golden line */
 
@@ -110,6 +110,7 @@ main, .top, .hud, .dock, .foot { position: relative; z-index: 2; }
 .dawn .kicker::before { background: var(--white); }
 .dawn .foot__contact { color: var(--white); border-color: var(--white-62); }
 .dawn .when, .dawn .stamp, .dawn .kicker, .dawn .small { text-shadow: 0 0 13px rgb(0 0 0 / .62), 0 0 34px rgb(0 0 0 / .62); }
+.dawn .foot__mail .addr { text-shadow: 0 0 8px rgb(0 0 0 / .62), 0 0 21px rgb(0 0 0 / .62), 0 0 34px rgb(0 0 0 / .55); }   /* the booking email sits on the bright cloud band on phones */
 .quote { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--amber); font-size: 34px; line-height: 34px; text-wrap: balance; }
 @media (min-width: 768px) { .quote { font-size: 55px; line-height: 55px; } }
 .kicker { display: inline-flex; align-items: center; gap: 13px; font: 500 13px/21px var(--body); letter-spacing: .3em; text-transform: uppercase; color: var(--amber); }
@@ -124,9 +125,11 @@ main, .top, .hud, .dock, .foot { position: relative; z-index: 2; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 13px; min-height: 55px; padding: 0 34px; border: 1px solid var(--amber); border-radius: var(--r);
   color: var(--amber); font: 600 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; transition: background-color 233ms, color 233ms, border-color 233ms; white-space: nowrap; }
-.btn:hover { background: var(--amber); color: var(--black); }
 .btn--solid { background: var(--amber); color: var(--black); }
-.btn--solid:hover { background: var(--white); border-color: var(--white); }
+@media (hover: hover) {   /* touch screens would keep the hover colour after a tap */
+  .btn:hover { background: var(--amber); color: var(--black); }
+  .btn--solid:hover { background: var(--white); border-color: var(--white); }
+}
 .actions { display: flex; flex-wrap: wrap; gap: 13px; }
 @media (min-width: 768px) { .actions { gap: 21px; } }
 .tbc { display: inline-block; padding: 0 8px; border: 1px dashed var(--amber); border-radius: 3px; color: var(--amber);
@@ -307,7 +310,8 @@ main { container-type: inline-size; }
 /* sunrise */
 .sunrise .title { font-size: 55px; line-height: 55px; }
 /* the album portrait is warm; over the violet dawn an oval fade lets its wall dissolve into the city instead of a feathered rectangle */
-.sunrise .photo { -webkit-mask-image: radial-gradient(ellipse 50% 56% at 42% 50%, #000 38%, transparent 96%); mask-image: radial-gradient(ellipse 50% 56% at 42% 50%, #000 38%, transparent 96%); }
+/* the fade ends inside the box, so no straight edge shows across the dawn sky */
+.sunrise .photo { -webkit-mask-image: radial-gradient(ellipse 50% 56% at 42% 50%, #000 38%, transparent 89%); mask-image: radial-gradient(ellipse 50% 56% at 42% 50%, #000 38%, transparent 89%); }
 @media (min-width: 1024px) { .sunrise .title { font-size: 89px; line-height: 89px; } }
 .when { color: var(--amber); }
 .album-grid { display: grid; gap: 34px; }
@@ -342,7 +346,7 @@ main { container-type: inline-size; }
 .dl .lbl { font: 600 13px/21px var(--body); letter-spacing: .2em; text-transform: uppercase; }
 .dl .meta { font-size: 13px; line-height: 21px; letter-spacing: .08em; color: var(--white-62); }
 .dl:hover { background: var(--amber); color: var(--black); }
-.dl.busy, .btn.busy { opacity: .55; pointer-events: none; cursor: progress; }   /* packing a ZIP on the claude.ai page */
+.dl.busy, .btn.busy { opacity: .55; pointer-events: none; cursor: progress; }   /* while a ZIP is being packed */
 .dl:hover .meta { color: var(--black); }
 .dl--solid { background: var(--amber); color: var(--black); }
 .dl--solid .meta { color: rgb(0 0 0 / .62); }
@@ -379,25 +383,24 @@ main { container-type: inline-size; }
 .dock__now .t { font-size: 13px; line-height: 21px; letter-spacing: .13em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .eq { display: flex; align-items: flex-end; gap: 2px; height: 13px; flex: none; }
 .eq i { width: 2px; background: var(--amber); height: 5px; }
-.dock.on .eq i { animation: eq 987ms ease-in-out infinite alternate; }
-.dock.on .eq i:nth-child(2) { animation-delay: -233ms; } .dock.on .eq i:nth-child(3) { animation-delay: -610ms; } .dock.on .eq i:nth-child(4) { animation-delay: -377ms; }
-@keyframes eq { from { height: 3px; } to { height: 13px; } }
+/* the bars stay still: the Spotify embed can't tell the page whether it is playing */
+.dock.on .eq i:nth-child(2) { height: 11px; } .dock.on .eq i:nth-child(3) { height: 8px; } .dock.on .eq i:nth-child(4) { height: 13px; }
 .dock__panel { padding: 0 13px 13px; }
 .dock__panel[hidden] { display: none; }
 .dock__panel iframe { display: block; width: 100%; height: 152px; border: 0; border-radius: 13px; color-scheme: normal; }
+@media (max-width: 767px) { .dock__panel iframe { height: 80px; } }   /* Spotify's compact player: the open panel covers less of a phone */
 .dock__tracks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
 .dock__tracks button { padding: 0 13px; min-height: 34px; border: 1px solid var(--white-14); border-radius: 21px; font: 500 13px/21px var(--body); letter-spacing: .08em; color: var(--white-80); }
 .dock__tracks button[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); }
 @media (max-width: 767px) { .foot { padding-bottom: 377px; } }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv, .rv.pre { opacity: 1 !important; transform: none !important; transition: none !important; } .dock.on .eq i { animation: none; } }
-.calm-on .dock.on .eq i { animation: none; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv, .rv.pre { opacity: 1 !important; transform: none !important; transition: none !important; } }
 
 /* ---------- moving pictures: muted loops that play only while on screen ---------- */
-.vid { position: relative; overflow: hidden; border-radius: 13px; background: var(--navy); aspect-ratio: 13 / 8; min-width: 0; }
+.vid { position: relative; overflow: hidden; border-radius: 13px; background: var(--navy) 50% 50% / cover no-repeat; aspect-ratio: 13 / 8; min-width: 0; }   /* the still (inline background-image) shows while a clip loads its first frame */
 .vid video { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
 .vid::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: url("assets/img/texture.webp") 0 0 / 377px 377px repeat; mix-blend-mode: overlay; opacity: .3; }
-.vid figcaption { position: absolute; left: 13px; bottom: 8px; z-index: 2; color: var(--white); text-shadow: 0 0 13px rgb(0 0 0 / .89); }
+.vid figcaption { position: absolute; left: 13px; bottom: 8px; z-index: 2; color: var(--white); text-shadow: 0 0 13px rgb(0 0 0 / .89); text-wrap: balance; }
 /* Fibonacci mosaics: tile widths are Fibonacci weights that fill the row, heights follow from the tile shapes,
    so every row comes out level. .br starts a new row; .br--m only on phones. */
 .studio, .reel, .wall { display: flex; flex-wrap: wrap; align-items: flex-start; column-gap: 13px; }
@@ -429,7 +432,7 @@ main { container-type: inline-size; }
 /* ---------- photos: the press set on the Fibonacci grid (rows and crops come from build2.py WALL / FOCUS) ---------- */
 .wall figure { flex: var(--w) 1 0; aspect-ratio: var(--w) / var(--h); min-width: 0; position: relative; overflow: hidden; border-radius: 8px; background: var(--navy); }
 .wall img { width: 100%; height: 100%; object-fit: cover; }
-.wall figcaption { position: absolute; left: 8px; bottom: 5px; color: var(--white); text-shadow: 0 0 13px rgb(0 0 0 / .89); }
+.wall figcaption { position: absolute; left: 8px; bottom: 5px; color: var(--white); text-shadow: 0 0 13px rgb(0 0 0 / .89); text-wrap: balance; }
 @media (min-width: 768px) { .wall { column-gap: 21px; } .wall > figure { margin-bottom: 21px; } }
 .photos .actions { margin-top: 34px; }
 
@@ -597,13 +600,13 @@ main { container-type: inline-size; }
   <div class="studio-wrap rv">
     <p class="kicker">In the studio</p>
     <div class="studio">
-      <figure class="vid s1">
+      <figure class="vid s1" style="background-image: url(assets/video/studio-megaforce-booth.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/studio-megaforce-booth.webp" data-src="assets/video/studio-megaforce-booth.mp4" aria-label="MOSUN at the microphones in the vocal booth at Megaforce Studio, Taipei, as an assistant adjusts the stand"></video><figcaption class="mono">Megaforce Studio</figcaption>
 </figure>
-      <figure class="vid s2">
+      <figure class="vid s2" style="background-image: url(assets/video/studio-keys.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/studio-keys.webp" data-src="assets/video/studio-keys.mp4" aria-label="MOSUN playing synthesizers in a purple-lit studio"></video><figcaption class="mono">Studio · Taipei</figcaption>
 </figure>
-      <figure class="vid s3">
+      <figure class="vid s3" style="background-image: url(assets/video/studio-patch.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/studio-patch.webp" data-src="assets/video/studio-patch.mp4" aria-label="Hands patching cables on a modular synthesizer"></video><figcaption class="mono">Modular</figcaption>
 </figure>
     </div>
@@ -627,7 +630,7 @@ main { container-type: inline-size; }
   <div class="cols">
     <div class="rv">
       <ol class="arc" aria-label="The show, from darkness to sunrise">
-        <li><i style="background: #000000"></i><span><b>Opening</b><span>Darkness. The stage finds MOSUN&#39;s signal. Lights flicker like searching for a frequency, then lock on. He appears mid-transmission.</span></span></li>
+        <li><i style="background: #000000"></i><span><b>Opening</b><span>Darkness. The stage finds MOSUN’s signal. Lights flicker like searching for a frequency, then lock on. He appears mid-transmission.</span></span></li>
         <li><i style="background: #1A1B3A"></i><span><b>The night</b><span>Deep indigo and midnight lighting. Intimate. Close spots. The modular rig glows. The room closes in.</span></span></li>
         <li><i style="background: linear-gradient(135deg, #2D1A4A, #4A2670 45%, #F6A25C)"></i><span><b>Transition</b><span>The stage transforms. Colors shift from indigo to purple to amber. The audience experiences the walk toward dawn.</span></span></li>
         <li><i style="background: #F6A25C"></i><span><b>The sunrise</b><span>Full warm light floods the stage. Expansive. The sun orb rises. Everything opens up.</span></span></li>
@@ -643,19 +646,19 @@ main { container-type: inline-size; }
     </div>
   </div>
   <div class="reel rv">
-    <figure class="vid r1">
+    <figure class="vid r1" style="background-image: url(assets/video/live-mark.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/live-mark.webp" data-src="assets/video/live-mark.mp4" aria-label="MOSUN on stage as the light line on the screen draws the MOSUN mark, crowd in front"></video><figcaption class="mono">Live · 2026</figcaption>
 </figure>
-    <figure class="vid r2">
+    <figure class="vid r2" style="background-image: url(assets/video/live-soundcheck.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/live-soundcheck.webp" data-src="assets/video/live-soundcheck.mp4" aria-label="Black-and-white soundcheck, the screen line forming the MOSUN mark above the band"></video><figcaption class="mono">Live · 2026</figcaption>
 </figure>
-    <figure class="vid r3">
+    <figure class="vid r3" style="background-image: url(assets/video/live-hall.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/live-hall.webp" data-src="assets/video/live-hall.mp4" aria-label="A full hall seen from the back, white beams over the stage"></video><figcaption class="mono">Live · 2026</figcaption>
 </figure><span class="br" aria-hidden="true"></span>
-    <figure class="vid r4">
+    <figure class="vid r4" style="background-image: url(assets/video/live-spaceport-stage.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/live-spaceport-stage.webp" data-src="assets/video/live-spaceport-stage.mp4" aria-label="MOSUN singing centre stage at Spaceport Festival 2025, the band behind and the MOSUN name across the screen"></video><figcaption class="mono">Spaceport Festival 2025 · main stage</figcaption>
 </figure>
-    <figure class="vid r5">
+    <figure class="vid r5" style="background-image: url(assets/video/live-screen.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/live-screen.webp" data-src="assets/video/live-screen.mp4" aria-label="MOSUN alone on stage under white beams, the MOSUN mark and name on the screen behind"></video><figcaption class="mono">Live · 2026</figcaption>
 </figure>
   </div>
@@ -908,7 +911,7 @@ main { container-type: inline-size; }
 
 <script>
 (() => {
-  const EMBEDS = true;   // hosted page: Spotify + video players load on click. claude.ai preview: plain links.
+  const EMBEDS = true;   // hosted page: Spotify + video players load on click. Preview build: plain links.
   const root = document.documentElement;
   root.classList.add("js");
   const store = {
@@ -946,7 +949,7 @@ main { container-type: inline-size; }
     if (actEl) actEl.textContent = minutes < 233 ? "the night" : minutes < 334 ? "the transition" : "sunrise";
   }
 
-  /* ------------------------------------------------------------------ the sky (WebGL; Brandbook v3.1 p.8 colours) */
+  /* ------------------------------------------------------------------ the sky (WebGL; brand palette) */
   const VS = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }";
   const FS = `precision mediump float;
 uniform vec2 uRes; uniform float uTime; uniform float uM; uniform float uDpr;
@@ -1131,15 +1134,14 @@ void main(){
   const dock = document.getElementById("dock");
   if (dock && EMBEDS) {
     const bar = document.getElementById("dock-bar"), panel = document.getElementById("dock-panel"), frame = panel.querySelector(".dock__frame");
-    const title = document.getElementById("dock-title"), kicker = document.getElementById("dock-kicker");
     const pick = [...panel.querySelectorAll("[data-spotify]")];
-    let current = pick[0] && pick[0].dataset.spotify;
+    let current = pick[0] && pick[0].dataset.spotify, openY = 0, quiet = 0;
+    /* the bar always reads Listen · MOSUN. A track name there would float under the "nominee" lines as you
+       scroll, and "Now playing" can't be promised: the embed doesn't tell the page when it plays */
     const load = (id) => {
       current = id;
       const b = pick.find((p) => p.dataset.spotify === id);
       pick.forEach((p) => p.setAttribute("aria-pressed", String(p === b)));
-      if (b) title.textContent = b.dataset.title;
-      if (kicker) kicker.textContent = "Now playing";   // until then the bar says Listen · MOSUN
       const f = document.createElement("iframe");
       f.src = `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`;
       f.title = `Spotify player: ${b ? b.dataset.title : ""}`;
@@ -1148,10 +1150,26 @@ void main(){
       dock.classList.add("on");
       dock.classList.remove("away");
     };
-    const open = (yes) => { panel.hidden = !yes; bar.setAttribute("aria-expanded", String(yes)); if (yes && !frame.firstChild) load(current); };
+    const open = (yes) => {
+      panel.hidden = !yes; bar.setAttribute("aria-expanded", String(yes));
+      if (yes) { openY = scrollY; if (!frame.firstChild) load(current); }
+    };
     bar.addEventListener("click", () => open(panel.hidden));
     pick.forEach((p) => p.addEventListener("click", () => load(p.dataset.spotify)));
-    document.querySelectorAll("[data-play]").forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); open(true); load(a.dataset.play); }));
+    /* where the open player will sit once it has slid in (its transform is still moving) */
+    const dockTop = () => innerHeight - parseFloat(getComputedStyle(dock).bottom) - dock.offsetHeight;
+    /* a page button opens the player; if the panel would cover that button's row (phones), the page moves up to keep it clear */
+    document.querySelectorAll("[data-play]").forEach((a) => a.addEventListener("click", (ev) => {
+      ev.preventDefault(); load(a.dataset.play); open(true);
+      const over = (a.closest(".actions") || a).getBoundingClientRect().bottom - dockTop() + 13;
+      if (over > 0) { quiet = performance.now() + 987; scrollBy({ top: over, behavior: reduced ? "auto" : "smooth" }); }
+    }));
+    /* the open panel folds back into the bar once you scroll on; the music keeps playing */
+    addEventListener("scroll", () => {
+      if (panel.hidden) return;
+      if (performance.now() < quiet) { openY = scrollY; return; }
+      if (Math.abs(scrollY - openY) > 89) open(false);
+    }, { passive: true });
     const clip = document.querySelector(".clip[data-embed]");
     if (clip && clip.dataset.embed) clip.addEventListener("click", (ev) => {
       ev.preventDefault();
@@ -1203,9 +1221,9 @@ void main(){
   vids.forEach((v) => v.addEventListener("click", () => { wake(v); if (v.paused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause(); }));
   if (calmBtn) calmBtn.addEventListener("click", () => { if (calm) vids.forEach((v) => v.pause()); });
 
-  /* ------------------------------------------------------------------ downloads: plain links on a normal host; inside the claude.ai
+  /* ------------------------------------------------------------------ downloads: plain links on a normal host; inside the preview
      viewer each file goes through the viewer's own save prompt (the page's `downloads` capability) */
-  // A claude.ai page can't host .zip files, so there a ZIP link carries data-parts (the files inside it) and the page
+  // The preview viewer can't host .zip files, so there a ZIP link carries data-parts (the files inside it) and the page
   // packs them on click: a plain "stored" ZIP, since photos and PNGs are compressed already.
   const crcTable = new Uint32Array(256).map((_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
   const crc32 = (u8) => { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = crcTable[(c ^ u8[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
