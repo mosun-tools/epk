@@ -106,7 +106,7 @@ main, .top, .hud, .dock, .foot { position: relative; z-index: 2; }
 /* at dawn the sky itself glows magenta and amber, so amber words hand over to warm white
    and the small labels get the same halo as the rest of the type */
 .dawn .quote, .dawn .see { color: var(--white); text-shadow: 0 0 34px rgb(0 0 0 / .62); }
-.dawn .when, .dawn .stamp b, .dawn .kicker { color: var(--white); }
+.dawn .when, .dawn .stamp b, .dawn .stamp span, .dawn .kicker { color: var(--white); }
 .dawn .kicker::before { background: var(--white); }
 .dawn .foot__contact { color: var(--white); border-color: var(--white-62); }
 /* over the sunrise photo every reading line gets a close dark halo: the sun-and-cloud band is bright enough to wash out
@@ -544,7 +544,7 @@ main { container-type: inline-size; }
     <ol>
       <li><span>2026 Golden Melody Awards nominee — Best Arranger (Jolin Tsai, “DIY”)</span></li>
       <li><span>Arranger and producer for BLACKPINK (Coachella), Steve Aoki, Jolin Tsai, Shi Shi <span class="zh" lang="zh-Hant">(孫盛希)</span>, J.Sheon · songwriter for Chenle (NCT DREAM)</span></li>
-      <li><span>Special guest, Shi Shi <span class="zh" lang="zh-Hant">(孫盛希)</span> “The Taste Of…” Tour — Legacy TERA, Taipei, Nov 1, 2026 · Recording Academy voting member</span></li>
+      <li><span>Special guest — Legacy TERA, Taipei, Nov 1, 2026 · Recording Academy voting member</span></li>
       <li><span>Main stage, Spaceport Festival 2025 (Taipei) — alongside China’s biggest rappers, including MASIWEI (Higher Brothers)</span></li>
       <li><span>Debut album “See You At Sunrise”, Q1 2027 — mastered by John Greenham (Billie Eilish)</span></li>
     </ol>
@@ -656,7 +656,7 @@ main { container-type: inline-size; }
     <div class="rv">
       <dl class="facts">
         <div><dt>Set</dt><dd>Full band, based in LA — vocals + modular rig, guitar, drums, keys<br>30–40 minutes</dd></div>
-        <div><dt>Special Guest</dt><dd>Shi Shi <span class="zh" lang="zh-Hant">(孫盛希)</span> “The Taste Of…” Tour — Legacy TERA, Taipei, Nov 1, 2026</dd></div>
+        <div><dt>Special Guest</dt><dd>Legacy TERA, Taipei, Nov 1, 2026</dd></div>
         <div><dt>Festival</dt><dd>Main stage, Spaceport Festival 2025, Taipei — alongside China’s biggest rappers, including MASIWEI (Higher Brothers)</dd></div>
       </dl>
     </div>
@@ -666,7 +666,7 @@ main { container-type: inline-size; }
   <video muted loop playsinline preload="none" poster="assets/video/live-taipei-red-cine2.webp" data-src="assets/video/live-taipei-red-cine2.mp4" aria-label="Red light floods the stage around the MOSUN mark on the screen; MOSUN raises both arms to the crowd"></video><figcaption class="mono">Legacy TERA · Taipei 2026</figcaption>
 </figure>
     <figure class="vid r2" style="background-image: url(assets/video/live-soundcheck.webp)">
-  <video muted loop playsinline preload="none" poster="assets/video/live-soundcheck.webp" data-src="assets/video/live-soundcheck.mp4" aria-label="Black-and-white soundcheck, the screen line forming the MOSUN mark above the band"></video><figcaption class="mono">Soundcheck · 2026</figcaption>
+  <video muted loop playsinline preload="none" poster="assets/video/live-soundcheck.webp" data-src="assets/video/live-soundcheck.mp4" aria-label="Black-and-white soundcheck, the screen line forming the MOSUN mark above the band"></video><figcaption class="mono">Guangzhou · 2026</figcaption>
 </figure>
     <figure class="vid r3" style="background-image: url(assets/video/live-taipei-close.webp)">
   <video muted loop playsinline preload="none" poster="assets/video/live-taipei-close.webp" data-src="assets/video/live-taipei-close.mp4" aria-label="MOSUN singing into the microphone beside his modular rig, in slow motion"></video><figcaption class="mono">Legacy TERA · Taipei 2026</figcaption>
