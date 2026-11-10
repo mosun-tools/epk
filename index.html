@@ -497,6 +497,24 @@ main { container-type: inline-size; }
 /* over the sunrise the link and download rows have no cards any more, so their words get the same close halo as the rest */
 .dawn .lcard, .dawn .dl, .dawn .btn { text-shadow: 0 0 8px rgb(0 0 0 / .62), 0 0 21px rgb(0 0 0 / .62), 0 0 34px rgb(0 0 0 / .55); }
 
+/* ---------- photos, drifting (web.json site.drift; after avantgardeartistsagency.com): "PHOTOS" stays pinned on the
+   screen's golden line while the press set floats up past it in lanes at their own speeds (epk2.js drift); the left lane
+   passes over the word. Positions in u come from build2.py drift_tiles. Calm mode: the same layout, standing still. */
+.drift { position: relative; }
+.drift__pin { position: sticky; top: var(--head); z-index: 1; height: calc(100svh - var(--head)); display: grid; grid-template-rows: 1fr auto 1.618fr; pointer-events: none; }
+.drift__pin .head { grid-row: 2; }
+.drift__title { font-size: 55px; line-height: 89px; }
+@media (min-width: 768px) { .drift__title { font-size: 89px; line-height: 144px; } }
+@media (min-width: 1280px) { .drift__title { font-size: 144px; line-height: 233px; } }
+.drift__flow { position: relative; z-index: 2; margin-top: calc(var(--head) - 100svh); height: calc(var(--Hm) * var(--u)); }
+.drift__f { position: absolute; left: calc(var(--mx) * var(--u)); top: calc(var(--my) * var(--u)); width: calc(var(--ms) * var(--u)); aspect-ratio: var(--ar); overflow: hidden; background: var(--navy); }
+.drift__f img { width: 100%; height: 100%; object-fit: cover; }
+.drift__f figcaption { position: absolute; left: 8px; bottom: 5px; color: var(--white); text-shadow: 0 0 13px rgb(0 0 0 / .89); }
+@media (min-width: 768px) {
+  .drift__flow { height: calc(var(--H) * var(--u)); }
+  .drift__f { left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u)); width: calc(var(--s) * var(--u)); }
+}
+
 </style>
 </head>
 <body>
@@ -530,7 +548,7 @@ main { container-type: inline-size; }
 <main>
 
 <section class="band hero" id="home" data-time="00:00" aria-label="MOSUN">
-  <figure class="photo hero__photo">
+  <figure class="photo hero__photo" data-speed="0.8" data-speed-m="0.9">
     <picture>
       <source media="(min-width: 1024px)" type="image/avif" srcset="assets/img/hero-987.avif 987w, assets/img/hero-1597.avif 1597w, assets/img/hero-2584.avif 2584w" sizes="62vw">
       <source media="(min-width: 1024px)" type="image/webp" srcset="assets/img/hero-987.webp 987w, assets/img/hero-1597.webp 1597w, assets/img/hero-2584.webp 2584w" sizes="62vw">
@@ -568,7 +586,7 @@ main { container-type: inline-size; }
 </section>
 
 <section class="band ch split bio" id="bio" data-time="00:34" aria-labelledby="bio-h">
-  <figure class="photo " style="--pos: 50% 30%">
+  <figure class="photo " style="--pos: 50% 30%" data-speed="0.85" data-speed-m="0.92">
   <picture>
     <source type="image/avif" srcset="assets/img/bio-610.avif 610w, assets/img/bio-987.avif 987w, assets/img/bio-1597.avif 1597w" sizes="(min-width: 1024px) 40vw, 100vw">
     <source type="image/webp" srcset="assets/img/bio-610.webp 610w, assets/img/bio-987.webp 987w, assets/img/bio-1597.webp 1597w" sizes="(min-width: 1024px) 40vw, 100vw">
@@ -697,7 +715,7 @@ main { container-type: inline-size; }
 </section>
 
 <section class="band ch split credits" id="credits" data-time="04:47" aria-labelledby="credits-h">
-  <figure class="photo " style="--pos: 50% 30%">
+  <figure class="photo " style="--pos: 50% 30%" data-speed="0.85" data-speed-m="0.92">
   <picture>
     <source type="image/avif" srcset="assets/img/credits-610.avif 610w, assets/img/credits-987.avif 987w, assets/img/credits-1597.avif 1597w" sizes="(min-width: 1024px) 40vw, 100vw">
     <source type="image/webp" srcset="assets/img/credits-610.webp 610w, assets/img/credits-987.webp 987w, assets/img/credits-1597.webp 1597w" sizes="(min-width: 1024px) 40vw, 100vw">
@@ -744,7 +762,7 @@ main { container-type: inline-size; }
 </section>
 
 <section class="band ch split split--l sunrise dawn" id="album" data-time="05:34" aria-labelledby="album-h">
-  <figure class="photo " style="--pos: 50% 30%">
+  <figure class="photo " style="--pos: 50% 30%" data-speed="0.85" data-speed-m="0.92">
   <picture>
     <source type="image/avif" srcset="assets/img/album-610.avif 610w, assets/img/album-987.avif 987w, assets/img/album-1597.avif 1597w" sizes="(min-width: 1024px) 40vw, 100vw">
     <source type="image/webp" srcset="assets/img/album-610.webp 610w, assets/img/album-987.webp 987w, assets/img/album-1597.webp 1597w" sizes="(min-width: 1024px) 40vw, 100vw">
@@ -769,130 +787,134 @@ main { container-type: inline-size; }
 </section>
 
 <section class="band ch photos dawn noamber" id="photos" data-time="05:55" aria-labelledby="photos-h">
-  <div class="head rv">
-    <p class="stamp"><b>05:55</b><span>Photos</span></p>
-    <h2 class="title" id="photos-h">Photos</h2>
-  </div>
-  <div class="wall rv">
-    <figure style="--w: 8; --h: 13" data-r="8:13">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-15-610.avif 610w, assets/img/press-15-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-15-610.webp 610w, assets/img/press-15-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-15-987.jpg" width="987" height="1480" alt="MOSUN singing in sunglasses and a leather jacket at Spaceport Festival 2025" loading="lazy" decoding="async" style="object-position: 50% 50%">
-      </picture><figcaption class="mono">Photo · HSIEH HAO</figcaption>
-    </figure>
-    <figure style="--w: 13; --h: 13" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-08-610.avif 610w, assets/img/press-08-987.avif 987w" sizes="(min-width: 1280px) 715px, 62vw">
-        <source type="image/webp" srcset="assets/img/press-08-610.webp 610w, assets/img/press-08-987.webp 987w" sizes="(min-width: 1280px) 715px, 62vw">
-        <img src="assets/img/press-08-987.jpg" width="987" height="658" alt="MOSUN in a dark coat against an orange wall lit by a round spotlight" loading="lazy" decoding="async" style="object-position: 41% 50%">
-      </picture><figcaption class="mono">Photo · Scott Liao</figcaption>
-    </figure><span class="br" aria-hidden="true"></span>
-    <figure style="--w: 5; --h: 5" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-03-610.avif 610w, assets/img/press-03-987.avif 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <source type="image/webp" srcset="assets/img/press-03-610.webp 610w, assets/img/press-03-987.webp 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <img src="assets/img/press-03-987.jpg" width="987" height="1233" alt="MOSUN singing in a cap beside his modular synthesizer rig" loading="lazy" decoding="async" style="object-position: 50% 0%">
-      </picture>
-    </figure>
-    <figure style="--w: 3; --h: 5" data-r="3:5">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-12-610.avif 610w, assets/img/press-12-987.avif 987w" sizes="(min-width: 1280px) 165px, 14vw">
-        <source type="image/webp" srcset="assets/img/press-12-610.webp 610w, assets/img/press-12-987.webp 987w" sizes="(min-width: 1280px) 165px, 14vw">
-        <img src="assets/img/press-12-987.jpg" width="987" height="1233" alt="MOSUN walking past a red wall in a black leather coat" loading="lazy" decoding="async" style="object-position: 0% 50%">
-      </picture>
-    </figure><span class="br br--m" aria-hidden="true"></span>
-    <figure style="--w: 5; --h: 5" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-05-610.avif 610w, assets/img/press-05-987.avif 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <source type="image/webp" srcset="assets/img/press-05-610.webp 610w, assets/img/press-05-987.webp 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <img src="assets/img/press-05-987.jpg" width="987" height="1233" alt="Black-and-white photo of MOSUN singing at a microphone stand in stage haze" loading="lazy" decoding="async" style="object-position: 50% 7%">
-      </picture>
-    </figure>
-    <figure style="--w: 8; --h: 5" data-r="8:5">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-07-610.avif 610w, assets/img/press-07-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-07-610.webp 610w, assets/img/press-07-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-07-987.jpg" width="987" height="658" alt="A neon MOSUN sign above a dark stage, MOSUN performing below" loading="lazy" decoding="async" style="object-position: 50% 100%">
-      </picture><figcaption class="mono">Photo · Time</figcaption>
-    </figure><span class="br" aria-hidden="true"></span>
-    <figure style="--w: 13; --h: 8" data-r="13:8">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-13-610.avif 610w, assets/img/press-13-987.avif 987w" sizes="(min-width: 1280px) 715px, 62vw">
-        <source type="image/webp" srcset="assets/img/press-13-610.webp 610w, assets/img/press-13-987.webp 987w" sizes="(min-width: 1280px) 715px, 62vw">
-        <img src="assets/img/press-13-987.jpg" width="987" height="658" alt="Spaceport Festival 2025 main stage, MOSUN on stage under a red screen showing his name" loading="lazy" decoding="async" style="object-position: 50% 100%">
-      </picture>
-    </figure>
-    <figure style="--w: 8; --h: 8" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-16-610.avif 610w, assets/img/press-16-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-16-610.webp 610w, assets/img/press-16-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-16-987.jpg" width="987" height="1480" alt="MOSUN in sunglasses holding a microphone in front of a red screen at Spaceport Festival 2025" loading="lazy" decoding="async" style="object-position: 50% 0%">
-      </picture>
-    </figure><span class="br" aria-hidden="true"></span>
-    <figure style="--w: 8; --h: 5" data-r="8:5">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-01-610.avif 610w, assets/img/press-01-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-01-610.webp 610w, assets/img/press-01-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-01-987.jpg" width="987" height="656" alt="MOSUN singing on a dark stage, blue light trails beside him" loading="lazy" decoding="async" style="object-position: 50% 1%">
-      </picture>
-    </figure>
-    <figure style="--w: 5; --h: 5" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-04-610.avif 610w, assets/img/press-04-987.avif 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <source type="image/webp" srcset="assets/img/press-04-610.webp 610w, assets/img/press-04-987.webp 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <img src="assets/img/press-04-987.jpg" width="987" height="1233" alt="Black-and-white photo of MOSUN performing behind his modular rig, a spotlight behind him" loading="lazy" decoding="async" style="object-position: 50% 0%">
-      </picture>
-    </figure><span class="br br--m" aria-hidden="true"></span>
-    <figure style="--w: 3; --h: 5" data-r="3:5">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-17-610.avif 610w, assets/img/press-17-987.avif 987w" sizes="(min-width: 1280px) 165px, 14vw">
-        <source type="image/webp" srcset="assets/img/press-17-610.webp 610w, assets/img/press-17-987.webp 987w" sizes="(min-width: 1280px) 165px, 14vw">
-        <img src="assets/img/press-17-987.jpg" width="987" height="1480" alt="MOSUN singing against a white sky at Spaceport Festival 2025" loading="lazy" decoding="async" style="object-position: 0% 50%">
-      </picture>
-    </figure>
-    <figure style="--w: 5; --h: 5" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-11-610.avif 610w, assets/img/press-11-987.avif 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <source type="image/webp" srcset="assets/img/press-11-610.webp 610w, assets/img/press-11-987.webp 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <img src="assets/img/press-11-987.jpg" width="987" height="1233" alt="Black-and-white photo of MOSUN on stage under a spotlight, modular rig beside him" loading="lazy" decoding="async" style="object-position: 50% 12%">
-      </picture>
-    </figure><span class="br" aria-hidden="true"></span>
-    <figure style="--w: 8; --h: 8" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-02-610.avif 610w, assets/img/press-02-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-02-610.webp 610w, assets/img/press-02-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-02-987.jpg" width="987" height="656" alt="Black-and-white portrait of MOSUN in a leather jacket, looking down" loading="lazy" decoding="async" style="object-position: 50% 50%">
-      </picture>
-    </figure>
-    <figure style="--w: 5; --h: 8" data-r="5:8">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-14-610.avif 610w, assets/img/press-14-987.avif 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <source type="image/webp" srcset="assets/img/press-14-610.webp 610w, assets/img/press-14-987.webp 987w" sizes="(min-width: 1280px) 275px, 24vw">
-        <img src="assets/img/press-14-987.jpg" width="987" height="1480" alt="MOSUN performing at Spaceport Festival 2025, his name on the screen, the crowd in front" loading="lazy" decoding="async" style="object-position: 18% 50%">
-      </picture>
-    </figure>
-    <figure style="--w: 8; --h: 8" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-09-610.avif 610w, assets/img/press-09-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-09-610.webp 610w, assets/img/press-09-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-09-987.jpg" width="987" height="658" alt="MOSUN in profile, backlit by blue light" loading="lazy" decoding="async" style="object-position: 26% 50%">
-      </picture>
-    </figure><span class="br" aria-hidden="true"></span>
-    <figure style="--w: 13; --h: 8" data-r="13:8">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-06-610.avif 610w, assets/img/press-06-987.avif 987w" sizes="(min-width: 1280px) 715px, 62vw">
-        <source type="image/webp" srcset="assets/img/press-06-610.webp 610w, assets/img/press-06-987.webp 987w" sizes="(min-width: 1280px) 715px, 62vw">
-        <img src="assets/img/press-06-987.jpg" width="987" height="658" alt="Wide view of MOSUN and his band on stage, the MOSUN mark lit on the screen, crowd in front" loading="lazy" decoding="async" style="object-position: 50% 36%">
-      </picture><figcaption class="mono">Photo · waitfourteen</figcaption>
-    </figure>
-    <figure style="--w: 8; --h: 8" data-r="1:1">
-      <picture>
-        <source type="image/avif" srcset="assets/img/press-10-610.avif 610w, assets/img/press-10-987.avif 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <source type="image/webp" srcset="assets/img/press-10-610.webp 610w, assets/img/press-10-987.webp 987w" sizes="(min-width: 1280px) 440px, 38vw">
-        <img src="assets/img/press-10-987.jpg" width="987" height="656" alt="Black-and-white silhouette of MOSUN in stage haze beside his modular rig" loading="lazy" decoding="async" style="object-position: 100% 50%">
-      </picture>
-    </figure>
+  <div class="drift" style="--H: 81.39; --Hm: 152.6">
+    <div class="drift__pin">
+      <div class="head">
+        <p class="stamp"><b>05:55</b><span>Photos</span></p>
+        <h2 class="title drift__title" id="photos-h">Photos</h2>
+      </div>
+    </div>
+    <div class="drift__flow">
+      <figure class="drift__f" style="--x: 0; --y: 13; --s: 5; --mx: 0; --my: 21; --ms: 10; --ar: 987 / 1480" data-speed="0.62" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-15-610.avif 610w, assets/img/press-15-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-15-610.webp 610w, assets/img/press-15-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-15-987.jpg" width="987" height="1480" alt="MOSUN singing in sunglasses and a leather jacket at Spaceport Festival 2025" loading="lazy" decoding="async">
+        </picture><figcaption class="mono">Photo · HSIEH HAO</figcaption>
+      </figure>
+      <figure class="drift__f" style="--x: 13; --y: 16; --s: 8; --mx: 11; --my: 25; --ms: 10; --ar: 987 / 658" data-speed="0.72" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-08-610.avif 610w, assets/img/press-08-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-08-610.webp 610w, assets/img/press-08-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-08-987.jpg" width="987" height="658" alt="MOSUN in a dark coat against an orange wall lit by a round spotlight" loading="lazy" decoding="async">
+        </picture><figcaption class="mono">Photo · Scott Liao</figcaption>
+      </figure>
+      <figure class="drift__f" style="--x: 8; --y: 19; --s: 5; --mx: 0; --my: 37.99; --ms: 10; --ar: 987 / 1233" data-speed="0.85" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-03-610.avif 610w, assets/img/press-03-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-03-610.webp 610w, assets/img/press-03-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-03-987.jpg" width="987" height="1233" alt="MOSUN singing in a cap beside his modular synthesizer rig" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 0; --y: 23.5; --s: 5; --mx: 11; --my: 41.99; --ms: 10; --ar: 987 / 1233" data-speed="0.62" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-12-610.avif 610w, assets/img/press-12-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-12-610.webp 610w, assets/img/press-12-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-12-987.jpg" width="987" height="1233" alt="MOSUN walking past a red wall in a black leather coat" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 16; --y: 26.5; --s: 5; --mx: 0; --my: 52.49; --ms: 10; --ar: 987 / 1233" data-speed="0.72" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-05-610.avif 610w, assets/img/press-05-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-05-610.webp 610w, assets/img/press-05-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-05-987.jpg" width="987" height="1233" alt="Black-and-white photo of MOSUN singing at a microphone stand in stage haze" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 8; --y: 29.5; --s: 8; --mx: 11; --my: 56.49; --ms: 10; --ar: 987 / 658" data-speed="0.85" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-07-610.avif 610w, assets/img/press-07-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-07-610.webp 610w, assets/img/press-07-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-07-987.jpg" width="987" height="658" alt="A neon MOSUN sign above a dark stage, MOSUN performing below" loading="lazy" decoding="async">
+        </picture><figcaption class="mono">Photo · Time</figcaption>
+      </figure>
+      <figure class="drift__f" style="--x: 0; --y: 32.74; --s: 8; --mx: 0; --my: 66.98; --ms: 10; --ar: 987 / 658" data-speed="0.62" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-13-610.avif 610w, assets/img/press-13-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-13-610.webp 610w, assets/img/press-13-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-13-987.jpg" width="987" height="658" alt="Spaceport Festival 2025 main stage, MOSUN on stage under a red screen showing his name" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 16; --y: 35.74; --s: 5; --mx: 11; --my: 70.98; --ms: 10; --ar: 987 / 1480" data-speed="0.72" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-16-610.avif 610w, assets/img/press-16-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-16-610.webp 610w, assets/img/press-16-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-16-987.jpg" width="987" height="1480" alt="MOSUN in sunglasses holding a microphone in front of a red screen at Spaceport Festival 2025" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 8; --y: 38.74; --s: 8; --mx: 0; --my: 75.65; --ms: 10; --ar: 987 / 656" data-speed="0.85" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-01-610.avif 610w, assets/img/press-01-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-01-610.webp 610w, assets/img/press-01-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-01-987.jpg" width="987" height="656" alt="MOSUN singing on a dark stage, blue light trails beside him" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 0; --y: 41.74; --s: 5; --mx: 11; --my: 87.97; --ms: 10; --ar: 987 / 1233" data-speed="0.62" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-04-610.avif 610w, assets/img/press-04-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-04-610.webp 610w, assets/img/press-04-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-04-987.jpg" width="987" height="1233" alt="Black-and-white photo of MOSUN performing behind his modular rig, a spotlight behind him" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 16; --y: 46.24; --s: 5; --mx: 0; --my: 91.97; --ms: 10; --ar: 987 / 1480" data-speed="0.72" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-17-610.avif 610w, assets/img/press-17-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-17-610.webp 610w, assets/img/press-17-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-17-987.jpg" width="987" height="1480" alt="MOSUN singing against a white sky at Spaceport Festival 2025" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 8; --y: 49.24; --s: 5; --mx: 11; --my: 102.47; --ms: 10; --ar: 987 / 1233" data-speed="0.85" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-11-610.avif 610w, assets/img/press-11-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-11-610.webp 610w, assets/img/press-11-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-11-987.jpg" width="987" height="1233" alt="Black-and-white photo of MOSUN on stage under a spotlight, modular rig beside him" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 0; --y: 52.24; --s: 8; --mx: 0; --my: 108.97; --ms: 10; --ar: 987 / 656" data-speed="0.62" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-02-610.avif 610w, assets/img/press-02-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-02-610.webp 610w, assets/img/press-02-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-02-987.jpg" width="987" height="656" alt="Black-and-white portrait of MOSUN in a leather jacket, looking down" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 16; --y: 56.74; --s: 5; --mx: 11; --my: 116.96; --ms: 10; --ar: 987 / 1480" data-speed="0.72" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-14-610.avif 610w, assets/img/press-14-987.avif 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-14-610.webp 610w, assets/img/press-14-987.webp 987w" sizes="(min-width: 1280px) 275px, (min-width: 768px) 24vw, 48vw">
+          <img src="assets/img/press-14-987.jpg" width="987" height="1480" alt="MOSUN performing at Spaceport Festival 2025, his name on the screen, the crowd in front" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 8; --y: 59.74; --s: 8; --mx: 0; --my: 120.96; --ms: 10; --ar: 987 / 658" data-speed="0.85" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-09-610.avif 610w, assets/img/press-09-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-09-610.webp 610w, assets/img/press-09-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-09-987.jpg" width="987" height="658" alt="MOSUN in profile, backlit by blue light" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="drift__f" style="--x: 0; --y: 62.74; --s: 8; --mx: 11; --my: 133.95; --ms: 10; --ar: 987 / 658" data-speed="0.62" data-speed-m="0.9">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-06-610.avif 610w, assets/img/press-06-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-06-610.webp 610w, assets/img/press-06-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-06-987.jpg" width="987" height="658" alt="Wide view of MOSUN and his band on stage, the MOSUN mark lit on the screen, crowd in front" loading="lazy" decoding="async">
+        </picture><figcaption class="mono">Photo · waitfourteen</figcaption>
+      </figure>
+      <figure class="drift__f" style="--x: 13; --y: 68.07; --s: 8; --mx: 0; --my: 137.95; --ms: 10; --ar: 987 / 656" data-speed="0.72" data-speed-m="0.8">
+        <picture>
+          <source type="image/avif" srcset="assets/img/press-10-610.avif 610w, assets/img/press-10-987.avif 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <source type="image/webp" srcset="assets/img/press-10-610.webp 610w, assets/img/press-10-987.webp 987w" sizes="(min-width: 1280px) 440px, (min-width: 768px) 38vw, 48vw">
+          <img src="assets/img/press-10-987.jpg" width="987" height="656" alt="Black-and-white silhouette of MOSUN in stage haze beside his modular rig" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+    </div>
   </div>
   <div class="actions rv">
     <a class="btn btn--solid" href="downloads/MOSUN_Press_Photos.zip" download>Download all photos</a>
@@ -1174,12 +1196,54 @@ void main(){
     rv.forEach((el) => io.observe(el));
   }
 
+  /* ------------------------------------------------------------------ drift: parallax (web.json site.drift)
+     After avantgardeartistsagency.com, at MOSUN's request. Every [data-speed] element sits exactly where the layout puts it
+     when its centre crosses the middle of the screen; above and below that it trails the page at its speed (data-speed-m
+     on phones), so the photos read as layers at different depths. The offsets follow an eased copy of the scroll, so the
+     layers glide on for a moment after the page stops. Calm mode keeps everything where the layout puts it. */
+  const drifters = [...document.querySelectorAll("[data-speed]")].map((el) => ({ el, s: 1, c: 0 }));
+  let ys = scrollY, driftRaf = 0;
+  function measureDrift() {
+    const phone = innerWidth < 768;
+    drifters.forEach((d) => {
+      d.el.style.transform = "";
+      const r = d.el.getBoundingClientRect();
+      d.c = r.top + scrollY + r.height / 2;
+      d.s = parseFloat((phone && d.el.dataset.speedM) || d.el.dataset.speed) || 1;
+    });
+    ys = scrollY;
+  }
+  function driftFrame() {
+    driftRaf = 0;
+    if (calm) return;
+    const lag = scrollY - ys;
+    if (Math.abs(lag) > 233) ys = scrollY - Math.sign(lag) * 233;     // a jump (a menu link) doesn't fling the layers
+    ys += (scrollY - ys) * 0.13;
+    if (Math.abs(scrollY - ys) < 0.5) ys = scrollY;
+    const mid = innerHeight / 2;
+    for (const d of drifters) {                                        // all of them, every frame: none is left stale
+      d.el.style.transform = `translate3d(0, ${(mid + d.s * (d.c - ys - mid) - (d.c - scrollY)).toFixed(1)}px, 0)`;
+    }
+    if (ys !== scrollY) driftRaf = requestAnimationFrame(driftFrame);
+  }
+  const kickDrift = () => { if (!driftRaf && !calm && drifters.length) driftRaf = requestAnimationFrame(driftFrame); };
+  const resetDrift = () => drifters.forEach((d) => { d.el.style.transform = ""; });
+  if (drifters.length) {
+    const remeasure = () => { measureDrift(); kickDrift(); };
+    remeasure();
+    addEventListener("scroll", kickDrift, { passive: true });
+    addEventListener("resize", remeasure);
+    addEventListener("load", remeasure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+  }
+
   /* ------------------------------------------------------------------ calm mode */
   const calmBtn = document.getElementById("calm");
   const applyCalm = () => {
     root.classList.toggle("calm-on", calm);
     if (calmBtn) calmBtn.setAttribute("aria-pressed", String(calm));
     rv.forEach((el) => el.classList.remove("pre"));
+    if (calm) resetDrift(); else kickDrift();
     kick();
   };
   applyCalm();
